@@ -26,6 +26,12 @@ jobs:
       - name: Install packages
         run: npm install
 
+      - name: Prepare website
+        run: |
+          mkdir -p www
+          cp index.html style.css app.js Manifest.webmanifest sw.js www/
+          cp -r icon-192.png Icon-512.png Icon.svg Apple-touch-icon.png www/ 2>/dev/null || true
+
       - name: Add Android platform
         run: npx cap add android
 
@@ -33,7 +39,7 @@ jobs:
         run: npx cap sync android
 
       - name: Build APK
-        run: cd android && ./gradlew assembleDebug
+        run: cd android && chmod +x gradlew && ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
