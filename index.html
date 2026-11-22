@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EFOTBALL">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="eFootball League - Ligini kur, takımlarını yönet, fikstür ve puan tablosunu takip et.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<title>EFOTBALL LEAGUE</title>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Ana sayfa">
+    <span class="brand-mark">EL</span>
+    <span><b>EFOTBALL <i>LEAGUE</i></b><small>FUTBOL LİGİ YÖNETİM PLATFORMU</small></span>
+  </a>
+  <button class="install-btn" id="install-btn" hidden>Uygulamayı yükle</button>
+</header>
+<main class="wrap">
+  <section id="home-view">
+    <div class="hero">
+      <div class="eyebrow"><span class="live-dot"></span> KENDİ LİGİNİ KUR · REKABETİ BAŞLAT</div>
+      <h1>Futbolun <em>kontrolü</em><br>sende.</h1>
+      <p>Ligini oluştur, takımlarını ekle, fikstürü hazırla. Maç sonuçlarını gir; puan durumu ve istatistikler otomatik güncellensin.</p>
+      <div class="hero-actions">
+        <button class="btn primary" id="create-open">＋ Yeni Lig Oluştur</button>
+        <button class="btn secondary" id="scroll-leagues">Liglerimi Gör ↓</button>
+      </div>
+      <div class="hero-stats">
+        <div><b>01</b><span>Ligini oluştur</span></div><div><b>02</b><span>Takımları ekle</span></div><div><b>03</b><span>Maçları yönet</span></div>
+      </div>
+    </div>
+
+    <section id="create-panel" class="panel hidden">
+      <div class="panel-head"><div><span class="eyebrow">YENİ ORGANİZASYON</span><h2>Lig oluştur</h2></div><button class="icon-btn" id="create-close" aria-label="Kapat">×</button></div>
+      <form id="create-form" class="form-grid">
+        <label>Lig adı<input id="league-name" required maxlength="55" placeholder="Örn. Şampiyonlar Ligi"></label>
+        <label>Sezon<input id="season" maxlength="25" placeholder="2026 / 2027"></label>
+        <label>Fikstür sistemi<select id="format"><option value="double">Çift devre (ev sahibi + deplasman)</option><option value="single">Tek devre</option></select></label>
+        <button class="btn primary full">Ligi Oluştur</button>
+      </form>
+    </section>
+
+    <div class="section-head" id="league-section">
+      <div><span class="eyebrow">YÖNETİM MERKEZİ</span><h2>Liglerim</h2></div>
+      <span id="league-count" class="muted"></span>
+    </div>
+    <div id="league-list" class="league-grid"></div>
+  </section>
+
+  <section id="league-view" class="hidden">
+    <button class="back-btn" id="back">← Tüm Ligler</button>
+    <div class="league-hero">
+      <div><span class="eyebrow">LİG YÖNETİM PANELİ</span><h1 id="league-title"></h1><p id="league-subtitle" class="muted"></p></div>
+      <div class="league-actions"><button class="btn primary" id="team-open">＋ Takım Ekle</button><button class="btn secondary" id="fixtures-create">Fikstür Oluştur</button></div>
+    </div>
+    <div id="team-panel" class="panel hidden">
+      <form id="team-form" class="inline-form"><input id="team-name" required maxlength="35" placeholder="Takım adını yaz"><button class="btn primary">Takımı Ekle</button><button type="button" id="team-close" class="btn secondary">Vazgeç</button></form>
+    </div>
+    <nav class="tabs" aria-label="Lig bölümleri">
+      <button class="tab active" data-tab="table">Puan Durumu</button>
+      <button class="tab" data-tab="fixtures">Fikstür & Sonuçlar</button>
+      <button class="tab" data-tab="teams">Takımlar</button>
+      <button class="tab" data-tab="stats">İstatistikler</button>
+    </nav>
+    <section id="tab-table" class="panel tab-content">
+      <div class="panel-head"><div><span class="eyebrow">ŞAMPİYONLUK YARIŞI</span><h2>Puan Durumu</h2></div><span class="hint">Galibiyet 3 · Beraberlik 1</span></div>
+      <div class="table-scroll"><table><thead><tr><th>#</th><th>Takım</th><th>O</th><th>G</th><th>B</th><th>M</th><th>AG</th><th>YG</th><th>AV</th><th>PUAN</th></tr></thead><tbody id="standings"></tbody></table></div>
+    </section>
+    <section id="tab-fixtures" class="panel tab-content hidden"><div class="panel-head"><div><span class="eyebrow">MAÇ MERKEZİ</span><h2>Fikstür & Sonuçlar</h2></div><span class="hint">Skorları gir, tablo otomatik hesaplansın</span></div><div id="fixtures-list"></div></section>
+    <section id="tab-teams" class="panel tab-content hidden"><div class="panel-head"><div><span class="eyebrow">KULÜP LİSTESİ</span><h2>Takımlar</h2></div></div><div id="teams-list" class="team-grid"></div></section>
+    <section id="tab-stats" class="panel tab-content hidden"><div class="panel-head"><div><span class="eyebrow">SEZON RAPORU</span><h2>İstatistikler</h2></div></div><div id="stats-list" class="stats-grid"></div><h3 class="subheading">En çok gol atan takımlar</h3><div id="scorers-list"></div></section>
+  </section>
+</main>
+<footer>
+  <div class="footer-brand">EFOTBALL LEAGUE</div>
+  <div class="presenter">producter: 7x HASANOV sunar</div>
+  <div class="footer-note">Tüm ligler · Tek platform</div>
+</footer>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
