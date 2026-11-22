@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get project files
+      - name: Checkout project
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -29,8 +29,9 @@ jobs:
       - name: Prepare website
         run: |
           mkdir -p www
-          cp index.html style.css app.js Manifest.webmanifest sw.js www/
-          cp -r icon-192.png Icon-512.png Icon.svg Apple-touch-icon.png www/ 2>/dev/null || true
+          cp index.html style.css app.js sw.js www/
+          cp -f *.webmanifest www/ 2>/dev/null || true
+          cp -f *.png *.svg www/ 2>/dev/null || true
 
       - name: Add Android platform
         run: npx cap add android
@@ -39,7 +40,10 @@ jobs:
         run: npx cap sync android
 
       - name: Build APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
